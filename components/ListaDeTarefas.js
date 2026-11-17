@@ -72,7 +72,12 @@ export default function ListaDeTarefas() {
             identificar qual item mudou, entrou ou saiu, para atualizar
             só o necessário. Deve ser única e estável (por isso o id). */}
         {tarefas.map((tarefa) => (
-          <TarefaItem key={tarefa.id} tarefa={tarefa} aoConcluir={concluir} />
+          <TarefaItem
+            key={tarefa.id}
+            tarefa={tarefa}
+            aoConcluir={concluir}
+            aoExcluir={excluir}
+          />
         ))}
       </ul>
     </section>
