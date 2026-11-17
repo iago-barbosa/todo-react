@@ -1,3 +1,24 @@
+/* ============================================================
+   page.module.css — CSS Module (sobra do template do Next.js)
+   ============================================================
+   ATENÇÃO: este arquivo NÃO está sendo usado no projeto!
+   Ele veio pronto do "create-next-app" e nenhum componente o
+   importa. Os estilos da nossa To Do List estão em globals.css.
+
+   O que é um CSS MODULE?
+   Arquivos terminados em ".module.css" têm classes com escopo
+   LOCAL: o Next.js renomeia cada classe (ex.: .page vira algo
+   como .page_abc123), evitando conflito de nomes entre componentes.
+   Para usar, seria preciso importar e acessar como objeto:
+
+     import styles from "./page.module.css";
+     <div className={styles.page}>...</div>
+
+   Ele pode ser apagado sem afetar a aplicação. Mantemos aqui
+   apenas como exemplo de estudo. */
+
+/* Classe do container da página. As variáveis declaradas aqui
+   só valem dentro de .page e dos seus filhos. */
 .page {
   --background: #fafafa;
   --foreground: #fff;
@@ -44,7 +65,7 @@
   font-weight: 600;
   line-height: 48px;
   letter-spacing: -2.4px;
-  text-wrap: balance;
+  text-wrap: balance; /* equilibra o tamanho das linhas do título */
   color: var(--text-primary);
 }
 
@@ -61,6 +82,7 @@
   color: var(--text-primary);
 }
 
+/* "ctas" = Call To Action (botões/links de chamada para ação) */
 .ctas {
   display: flex;
   flex-direction: row;
@@ -78,7 +100,7 @@
   padding: 0 16px;
   border-radius: 128px;
   border: 1px solid transparent;
-  transition: 0.2s;
+  transition: 0.2s; /* anima suavemente as mudanças (ex.: no hover) */
   cursor: pointer;
   width: fit-content;
   font-weight: 500;
@@ -94,7 +116,7 @@ a.secondary {
   border-color: var(--button-secondary-border);
 }
 
-/* Enable hover only on non-touch devices */
+/* Habilita o hover só em dispositivos com mouse (não em telas de toque) */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
     background: var(--button-primary-hover);
@@ -107,6 +129,7 @@ a.secondary {
   }
 }
 
+/* Ajustes para telas de até 600px (celulares) */
 @media (max-width: 600px) {
   .main {
     padding: 48px 24px;
@@ -123,9 +146,11 @@ a.secondary {
   }
 }
 
+/* Tema escuro: aplicado quando o sistema do usuário está no modo escuro.
+   Basta redefinir as variáveis — todas as regras acima se adaptam. */
 @media (prefers-color-scheme: dark) {
   .logo {
-    filter: invert();
+    filter: invert(); /* inverte as cores do logo */
   }
 
   .page {
@@ -141,9 +166,11 @@ a.secondary {
   }
 }
 
+/* Estilo para trechos de código no texto */
 .code {
   font-family: var(--font-geist-mono);
   font-size: 0.9em;
+  /* color-mix mistura a cor do texto (8%) com transparente → fundo bem suave */
   background: color-mix(in srgb, currentColor 8%, transparent);
   padding: 0.1em 0.4em;
   border-radius: 6px;
