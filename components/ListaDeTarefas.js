@@ -18,6 +18,7 @@ export default function ListaDeTarefas() {
   // Estado com a lista de tarefas. Começa com os dados de dados.js.
   // Sempre que chamarmos setTarefas(...), o React redesenha a lista.
   const [tarefas, setTarefas] = useState(tarefasIniciais);
+  const [filtro, setFiltro] = useState("todas");
 
   // ----------------------------------------------------------
   // Marca/desmarca uma tarefa como concluída
@@ -57,6 +58,24 @@ export default function ListaDeTarefas() {
     setTarefas([...tarefas, nova]);
   };
 
+  const totalConcluidas = tarefas.filter((tarefa) => tarefa.concluida).length;
+
+  const limparConcluidas = () => {
+    setTarefas(tarefas.filter((tarefa) => !tarefa.concluida));
+  };
+
+  const tarefasFiltradas = tarefas.filter((tarefa) => {
+    if (filtro === "pendentes") return !tarefa.concluida;
+    if (filtro === "concluidas") return tarefa.concluida;
+    return true;
+  });
+
+  const FILTROS = [
+    { valor: "todas", texto: "Todas" },
+    { valor: "pendentes", texto: "Pendentes" },
+    { valor: "concluidas", texto: "Concluídas" },
+  ];
+
   return (
     <section>
       {/* Passamos a FUNÇÃO `adicionar` como prop para o formulário.
@@ -64,22 +83,58 @@ export default function ListaDeTarefas() {
           aoAdicionar(texto), que executa a nossa `adicionar`. */}
       <FormTarefa aoAdicionar={adicionar} />
 
-      <ul>
-        {/* RENDERIZANDO LISTAS: usamos map() para transformar cada
+      <div className="resumo">
+        <p>
+          {totalConcluidas} de {tarefas.length} tarefas concluídas
+        </p>
+        <div className="filtros">
+          {FILTROS.map((item) => (
+            <button
+              key={item.valor}
+              type="button"
+              className={
+                filtro === item.valor
+                  ? "botao-secundario ativo"
+                  : "botao-secundario"
+              }
+              onClick={() => setFiltro(item.valor)}
+            >
+              {item.texto}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {tarefasFiltradas.length === 0 ? (
+        <p className="vazio">Nenhuma tarefa por aqui.</p>
+      ) : (
+        <ul>
+          {/* RENDERIZANDO LISTAS: usamos map() para transformar cada
             objeto de tarefa em um componente <TarefaItem />.
 
             A prop `key` é OBRIGATÓRIA em listas. Ela ajuda o React a
             identificar qual item mudou, entrou ou saiu, para atualizar
             só o necessário. Deve ser única e estável (por isso o id). */}
-        {tarefas.map((tarefa) => (
-          <TarefaItem
-            key={tarefa.id}
-            tarefa={tarefa}
-            aoConcluir={concluir}
-            aoExcluir={excluir}
-          />
-        ))}
-      </ul>
+          {tarefasFiltradas.map((tarefa) => (
+            <TarefaItem
+              key={tarefa.id}
+              tarefa={tarefa}
+              aoConcluir={concluir}
+              aoExcluir={excluir}
+            />
+          ))}
+        </ul>
+      )}
+      <div className="resumo">
+        <button
+          type="button"
+          className="botao-secundario"
+          onClick={limparConcluidas}
+          disabled={totalConcluidas === 0}
+        >
+          Limpar Concluídas
+        </button>
+      </div>
     </section>
   );
 }
