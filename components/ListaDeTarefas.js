@@ -48,14 +48,27 @@ export default function ListaDeTarefas() {
   // ----------------------------------------------------------
   // Adiciona uma nova tarefa ao final da lista
   // ----------------------------------------------------------
-  const adicionar = (descricao) => {
+  const adicionar = (descricao, prioridade) => {
     // Date.now() retorna os milissegundos atuais — um jeito simples
     // de gerar um id (praticamente) único para a nova tarefa.
-    const nova = { id: Date.now(), descricao: descricao, concluida: false };
+    const nova = {
+      id: Date.now(),
+      descricao: descricao,
+      concluida: false,
+      prioridade: prioridade,
+    };
 
     // SPREAD (...tarefas) copia todos os itens antigos para um novo
     // array, e colocamos a tarefa nova no final.
     setTarefas([...tarefas, nova]);
+  };
+
+  const editar = (id, descricao) => {
+    setTarefas(
+      tarefas.map((tarefa) =>
+        tarefa.id === id ? { ...tarefa, descricao: descricao } : tarefa,
+      ),
+    );
   };
 
   const totalConcluidas = tarefas.filter((tarefa) => tarefa.concluida).length;
@@ -121,6 +134,7 @@ export default function ListaDeTarefas() {
               tarefa={tarefa}
               aoConcluir={concluir}
               aoExcluir={excluir}
+              aoEditar={editar}
             />
           ))}
         </ul>

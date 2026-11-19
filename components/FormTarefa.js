@@ -23,6 +23,7 @@ export default function FormTarefa({ aoAdicionar }) {
   // O argumento ("") é o valor inicial.
   const [texto, setTexto] = useState(""); // o que está digitado no input
   const [erro, setErro] = useState(""); // mensagem de erro ("" = sem erro)
+  const [prioridade, setPrioridade] = useState("media");
 
   // Função chamada quando o formulário é enviado (clique no botão
   // ou Enter no input).
@@ -39,7 +40,7 @@ export default function FormTarefa({ aoAdicionar }) {
     }
 
     // Chama a função do pai, passando o texto digitado.
-    aoAdicionar(texto.trim());
+    aoAdicionar(texto.trim(), prioridade);
 
     // Limpa o campo e apaga qualquer mensagem de erro anterior.
     setTexto("");
@@ -54,7 +55,15 @@ export default function FormTarefa({ aoAdicionar }) {
           Assim o React é sempre a "fonte da verdade" do campo.
           event.target.value é o texto atual dentro do input. */}
       <input value={texto} onChange={(event) => setTexto(event.target.value)} />
-
+      <select
+        aria-label="Prioridade"
+        value={prioridade}
+        onChange={(e) => setPrioridade(e.target.value)}
+      >
+        <option value="alta">Alta</option>
+        <option value="media">Média</option>
+        <option value="baixa">Baixa</option>
+      </select>
       {/* RENDERIZAÇÃO CONDICIONAL com &&:
           se a condição for verdadeira, o <p> aparece;
           se for falsa, nada é mostrado. */}
